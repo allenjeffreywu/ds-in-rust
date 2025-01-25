@@ -1,5 +1,5 @@
 mod p1;
-use p1::code_camp::{hamming_distance, is_permutation};
+use p1::code_camp::{hamming_distance, is_permutation, most_vowels};
 
 fn main() {
     println!("Hello, world!");
@@ -15,4 +15,7 @@ fn main() {
     } else {
         println!("{:?} is not a permutation of {:?}", &a, &b);
     }
+    let string_arr = ["hello", "allen", "AEIOU"];
+    let most_vowel_idx = most_vowels(&string_arr);
+    println!("In array {string_arr:?}, String at index {most_vowel_idx} has the most vowels");
 }

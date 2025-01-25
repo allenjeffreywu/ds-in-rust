@@ -35,6 +35,36 @@ pub fn is_permutation(a: &[i32], b: &[i32]) -> bool {
     return map_a.eq(&map_b);
 }
 
+/// Determine the index of the String that has the largest number of vowels
+/// string_array is not altered as a result of this method
+/// Returns the index of the String with the most vowels
+pub fn most_vowels(string_array: &[&str]) -> usize {
+    let mut most_vowels_idx = 0;
+    let mut most_vowels_count = 0;
+    for (i, e) in string_array.iter().enumerate() {
+        let mut vowel_count = 0;
+        let char_vec: Vec<char> = e.to_lowercase().chars().collect();
+        for c in char_vec {
+            match c {
+                'a' | 'e' | 'i' | 'o' | 'u' => vowel_count += 1,
+                _ => (),
+            }
+        }
+        if vowel_count > most_vowels_count {
+            most_vowels_count = vowel_count;
+            most_vowels_idx = i;
+        }
+    }
+    return most_vowels_idx;
+}
+
+/// Perform an experiment simulating the birthday problem
+/// Pick random birthdays for the given number of people
+/// Return the number of pairs of people that share the same birthday
+pub fn shared_birthdays(num_people: i32, num_days_in_year: i32) -> i32 {
+    return 0;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -302,5 +332,40 @@ mod tests {
         let a = [0; 1000];
         let b = [0; 1001];
         assert_eq!(is_permutation(&a, &b), false);
+    }
+
+    #[test]
+    fn most_vowels_1() {
+        let array_of_strings = ["aaaaaaa", "aieou"];
+        assert_eq!(most_vowels(&array_of_strings), 0);
+    }
+
+    #[test]
+    fn most_vowels_2() {
+        let array_of_strings = [
+            "Staying",
+            "",
+            "moo",
+            "SEqUOIA NAtIOnAl FOrEst",
+            "!!!!>>+_)(*&^%$#@!>)))???\\///\n\n/n",
+        ];
+        assert_eq!(most_vowels(&array_of_strings), 3);
+    }
+
+    #[test]
+    fn most_vowels_3() {
+        let array_of_strings = [
+            "100,000,000",
+            "XXX",
+            "",
+            "!!!!>>+_)(*&^%$#@!>)))???\\///\n\n/n",
+        ];
+        assert_eq!(most_vowels(&array_of_strings), 0);
+    }
+
+    #[test]
+    fn most_vowels_4() {
+        let array_of_strings = [""];
+        assert_eq!(most_vowels(&array_of_strings), 0);
     }
 }
