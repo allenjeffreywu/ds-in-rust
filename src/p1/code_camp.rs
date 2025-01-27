@@ -1,3 +1,4 @@
+use rand::Rng;
 use std::collections::HashMap;
 
 /// Determine the Hamming Distance between two arrays of ints.
@@ -62,7 +63,26 @@ pub fn most_vowels(string_array: &[&str]) -> usize {
 /// Pick random birthdays for the given number of people
 /// Return the number of pairs of people that share the same birthday
 pub fn shared_birthdays(num_people: i32, num_days_in_year: i32) -> i32 {
-    return 0;
+    // 0 indexing days
+    assert!(num_people > 0);
+    assert!(num_days_in_year > 0);
+
+    let mut birthdays = HashMap::<i32, i32>::new();
+
+    for _ in 0..num_people {
+        let birthday = rand::thread_rng().gen_range(0..num_days_in_year);
+        *birthdays.entry(birthday).or_insert(0) += 1;
+    }
+
+    let mut counter = 0;
+
+    for (_, value) in birthdays {
+        if value > 1 {
+            counter += 1;
+        }
+    }
+
+    return counter;
 }
 
 #[cfg(test)]

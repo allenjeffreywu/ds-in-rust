@@ -1,5 +1,6 @@
 mod p1;
-use p1::code_camp::{hamming_distance, is_permutation, most_vowels};
+
+use p1::code_camp::{hamming_distance, is_permutation, most_vowels, shared_birthdays};
 
 fn main() {
     println!("Hello, world!");
@@ -18,4 +19,6 @@ fn main() {
     let string_arr = ["hello", "allen", "AEIOU"];
     let most_vowel_idx = most_vowels(&string_arr);
     println!("In array {string_arr:?}, String at index {most_vowel_idx} has the most vowels");
+    let a = shared_birthdays(3, 365);
+    println!("{a} pair(s) of people shared a birthday");
 }
