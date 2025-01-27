@@ -78,7 +78,8 @@ pub fn shared_birthdays(num_people: i32, num_days_in_year: i32) -> i32 {
 
     for (_, value) in birthdays {
         if value > 1 {
-            counter += 1;
+            // use gauss formula here?
+            counter += (value * (value - 1)) / 2;
         }
     }
 
@@ -387,5 +388,29 @@ mod tests {
     fn most_vowels_4() {
         let array_of_strings = [""];
         assert_eq!(most_vowels(&array_of_strings), 0);
+    }
+
+    #[test]
+    fn shared_birthdays_1() {
+        let a = shared_birthdays(1, 365);
+        assert_eq!(a, 0);
+    }
+
+    #[test]
+    fn shared_birthdays_2() {
+        let a = shared_birthdays(366, 365);
+        assert!(a > 0);
+    }
+
+    #[test]
+    fn shared_birthdays_3() {
+        let a = shared_birthdays(100, 1);
+        assert_eq!(a, 4950);
+    }
+
+    #[test]
+    fn shared_birthdays_4() {
+        let a = shared_birthdays(100000, 100000);
+        assert!(a > 0);
     }
 }
