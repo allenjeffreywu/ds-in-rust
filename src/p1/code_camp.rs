@@ -1,5 +1,6 @@
 use rand::Rng;
 use std::collections::HashMap;
+use std::fmt::Debug;
 
 /// Determine the Hamming Distance between two arrays of ints.
 /// Neither a or b are altered
@@ -84,6 +85,19 @@ pub fn shared_birthdays(num_people: i32, num_days_in_year: i32) -> i32 {
     }
 
     return counter;
+}
+
+/// Determine if the chess board represented by board is a safe setup
+/// board must be a square matrix
+/// 'q' in the board represents a queen, and '.' represents an empty square
+/// board is not altered as a result of this method
+/// This is the queen chess problem
+pub fn queens_are_safe<Matrix: AsRef<[Row]>, Row: AsRef<[char]> + Debug>(board: Matrix) -> bool {
+    let board = board.as_ref();
+    for i in 0..board.len() {
+        println!("{:?}", board[i]);
+    }
+    return true;
 }
 
 #[cfg(test)]
