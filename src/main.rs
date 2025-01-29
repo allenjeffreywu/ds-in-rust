@@ -23,11 +23,13 @@ fn main() {
     println!("In array {string_arr:?}, String at index {most_vowel_idx} has the most vowels");
     let a = shared_birthdays(3, 365);
     println!("{a} pair(s) of people shared a birthday");
+
     let board = [
         ['.', '.', '.', 'q'],
         ['.', '.', '.', '.'],
         ['.', '.', '.', '.'],
         ['q', '.', '.', '.'],
     ];
+    let board: Vec<_> = board.iter().map(|&e| e.to_vec()).collect();
     queens_are_safe(&board);
 }

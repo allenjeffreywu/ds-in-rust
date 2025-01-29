@@ -92,11 +92,32 @@ pub fn shared_birthdays(num_people: i32, num_days_in_year: i32) -> i32 {
 /// 'q' in the board represents a queen, and '.' represents an empty square
 /// board is not altered as a result of this method
 /// This is the queen chess problem
-pub fn queens_are_safe<Matrix: AsRef<[Row]>, Row: AsRef<[char]> + Debug>(board: Matrix) -> bool {
+pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
+    assert!(is_square(board));
     let board = board.as_ref();
+    // unknown amount of Queens
+    // we should add to a vector
+    // let queens: Vec<(i32, i32)> = Vec::new();
+
     for i in 0..board.len() {
         println!("{:?}", board[i]);
     }
+    return true;
+}
+
+pub fn is_square(board: &[Vec<char>]) -> bool {
+    let board = board.as_ref();
+    assert!(board.len() != 0);
+    let length = board.len();
+    for i in 0..board.len() {
+        if board[i].len() != length {
+            return false;
+        }
+    }
+    return true;
+}
+
+pub fn only_contains<Matrix: AsRef<[Row]>, Row: AsRef<[char]> + Debug>() -> bool {
     return true;
 }
 
