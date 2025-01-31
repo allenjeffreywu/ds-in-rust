@@ -1,6 +1,5 @@
 use rand::Rng;
 use std::collections::HashMap;
-use std::fmt::Debug;
 
 /// Determine the Hamming Distance between two arrays of ints.
 /// Neither a or b are altered
@@ -94,14 +93,25 @@ pub fn shared_birthdays(num_people: i32, num_days_in_year: i32) -> i32 {
 /// This is the queen chess problem
 pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
     assert!(is_square(board));
+    let valid_chars = ['.', 'q'];
+    assert!(only_contains(board, &valid_chars));
     let board = board.as_ref();
     // unknown amount of Queens
     // we should add to a vector
-    // let queens: Vec<(i32, i32)> = Vec::new();
+    let mut queens: Vec<(usize, usize)> = Vec::new();
+    for (i, e) in board.iter().enumerate() {
+        for j in 0..e.len() {
+            if e[j] == 'q' {
+                queens.push((i, j));
+            }
+        }
+    }
 
     for i in 0..board.len() {
         println!("{:?}", board[i]);
     }
+
+    println!("queens are located at {queens:?}");
     return true;
 }
 
@@ -111,13 +121,22 @@ pub fn is_square(board: &[Vec<char>]) -> bool {
     let length = board.len();
     for i in 0..board.len() {
         if board[i].len() != length {
+            // maybe we can add error handling here to make it clearer
             return false;
         }
     }
     return true;
 }
 
-pub fn only_contains<Matrix: AsRef<[Row]>, Row: AsRef<[char]> + Debug>() -> bool {
+pub fn only_contains(mat: &[Vec<char>], valid: &[char]) -> bool {
+    assert!(mat.len() != 0);
+    for r in mat {
+        for e in r {
+            if !valid.contains(e) {
+                return false;
+            }
+        }
+    }
     return true;
 }
 
