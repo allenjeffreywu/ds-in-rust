@@ -96,8 +96,6 @@ pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
     let valid_chars = ['.', 'q'];
     assert!(only_contains(board, &valid_chars));
     let board = board.as_ref();
-    // unknown amount of Queens
-    // we should add to a vector
     let mut queens: Vec<(usize, usize)> = Vec::new();
     for (i, e) in board.iter().enumerate() {
         for j in 0..e.len() {
@@ -106,12 +104,18 @@ pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
             }
         }
     }
-
-    for i in 0..board.len() {
-        println!("{:?}", board[i]);
+    for i in 0..queens.len() {
+        for j in (i + 1)..queens.len() {
+            // compare queen positions
+            if queens[i].0 == queens[j].0 {
+                return false;
+            } else if queens[i].1 == queens[j].1 {
+                return false;
+            } else if queens[i].0.abs_diff(queens[j].0) == queens[i].1.abs_diff(queens[j].1) {
+                return false;
+            }
+        }
     }
-
-    println!("queens are located at {queens:?}");
     return true;
 }
 
@@ -466,5 +470,57 @@ mod tests {
     fn shared_birthdays_4() {
         let a = shared_birthdays(100000, 100000);
         assert!(a > 0);
+    }
+
+    #[test]
+    fn queens_are_safe_1() {
+        let board = vec![
+            vec!['.', '.', '.'],
+            vec!['q', '.', '.'],
+            vec!['.', '.', 'q'],
+        ];
+        assert_eq!(queens_are_safe(&board), true);
+    }
+
+    #[test]
+    fn queens_are_safe_2() {
+        let board = vec![
+            vec!['.', '.', '.', 'q'],
+            vec!['.', '.', '.', '.'],
+            vec!['.', '.', '.', '.'],
+            vec!['q', '.', '.', '.'],
+        ];
+        assert_eq!(queens_are_safe(&board), false);
+    }
+
+    #[test]
+    fn queens_are_safe_3() {
+        let board = vec![
+            vec!['q', '.', '.', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', 'q', '.', '.'],
+            vec!['.', 'q', '.', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', '.', 'q', '.'],
+            vec!['.', '.', 'q', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', '.', '.', 'q'],
+            vec!['.', '.', '.', 'q', '.', '.', '.'],
+        ];
+        assert_eq!(queens_are_safe(&board), true);
+    }
+
+    #[test]
+    fn queens_are_safe_4() {
+        let board = vec![
+            vec!['q', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', 'q', '.', '.', '.', '.', '.'],
+            vec!['.', 'q', '.', '.', '.', '.', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', '.', 'q', '.', '.', '.', '.'],
+            vec!['.', '.', 'q', '.', '.', '.', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', '.', '.', 'q', '.', '.', '.'],
+            vec!['.', '.', '.', 'q', '.', '.', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', '.', '.', '.', '.', '.', '.'],
+            vec!['.', '.', '.', '.', '.', '.', '.', '.', 'q', '.'],
+        ];
+        assert_eq!(queens_are_safe(&board), false);
     }
 }
