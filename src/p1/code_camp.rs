@@ -91,6 +91,7 @@ pub fn shared_birthdays(num_people: i32, num_days_in_year: i32) -> i32 {
 /// 'q' in the board represents a queen, and '.' represents an empty square
 /// board is not altered as a result of this method
 /// This is the queen chess problem
+/// Returns if the queens are safe
 pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
     assert!(is_square(board));
     let valid_chars = ['.', 'q'];
@@ -117,6 +118,41 @@ pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
         }
     }
     return true;
+}
+
+/// Determine the most valuable rectangular subplot in a city
+/// the sub rectangle must be at least 1 by 1
+/// values in the city may be negative, indicating it is undesirable
+/// Returns the value of the most valuable contiguous sub rectangle
+pub fn get_value_of_most_valuable_plot(city: &[Vec<i32>]) -> i32 {
+    // get the value of the entire city and start removing rows/columns until
+    // it is valuable. We may want to implement some backtracing to make this
+    // more efficient. This should be recursive? iterative solution seems silly
+
+    // need to create some way to store all of this information to make sure we
+    // don't duplicate work done by other processes
+
+    // the stop for recursion is when the dimensions reach 1 by 1
+    // what if we have the coord for the bottom left corner followed by length and width
+    // if we do that, what sort of data structure can we use?
+    // simplest way is to have a map
+    // Here is the pattern for the map:
+    // key = "x,y,l,w"
+    // value = area
+    // remove the individual row/column as you go.
+    // this is bad for borrowing?
+    // what if we used 0 space
+
+    // imagine the following
+    // starting at the bottom row of the city, we have a process for EACH cell
+    // the next step is to calculate the area of the current cell and the one to the right
+    // we continue adding cells to the right until the 0th cell reaches the end of the city
+    // we then calculate the bottom row + 1 of the city's area and do the same thing
+    // we add cells to the right of the starting cell and calculate the area in the same way
+    // we THEN add previously calculated rows (which will always be below)
+    // so we backtrace for the other calculations and add them to the area. and store a result somewhere
+    // this continues until you reach the top row of the city.
+    return 0;
 }
 
 pub fn is_square(board: &[Vec<char>]) -> bool {
