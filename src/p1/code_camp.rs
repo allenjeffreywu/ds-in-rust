@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::collections::HashMap;
+use std::{collections::HashMap, f32::NEG_INFINITY, i32::MIN};
 
 /// Determine the Hamming Distance between two arrays of ints.
 /// Neither a or b are altered
@@ -93,6 +93,7 @@ pub fn shared_birthdays(num_people: i32, num_days_in_year: i32) -> i32 {
 /// This is the queen chess problem
 /// Returns if the queens are safe
 pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
+    assert!(board.len() != 0);
     assert!(is_square(board));
     let valid_chars = ['.', 'q'];
     assert!(only_contains(board, &valid_chars));
@@ -125,6 +126,17 @@ pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
 /// values in the city may be negative, indicating it is undesirable
 /// Returns the value of the most valuable contiguous sub rectangle
 pub fn get_value_of_most_valuable_plot(city: &[Vec<i32>]) -> i32 {
+    assert!(city.len() != 0);
+    assert!(city[0].len() != 0);
+    assert!(is_rectangular(city));
+
+    let mut ret: i32 = city[0][0];
+
+    // create a vec of vecs to track previous calculations. this should save time
+    let mut plots = vec![vec![city[0][0]]];
+
+    // now call helper function that adds all cells to the right, and appends that value to plots
+
     // get the value of the entire city and start removing rows/columns until
     // it is valuable. We may want to implement some backtracing to make this
     // more efficient. This should be recursive? iterative solution seems silly
@@ -175,6 +187,18 @@ pub fn only_contains(mat: &[Vec<char>], valid: &[char]) -> bool {
             if !valid.contains(e) {
                 return false;
             }
+        }
+    }
+    return true;
+}
+
+pub fn is_rectangular(board: &[Vec<i32>]) -> bool {
+    let board = board.as_ref();
+    assert!(board.len() != 0);
+    let length = board[0].len();
+    for i in 0..board.len() {
+        if board[i].len() != length {
+            return false;
         }
     }
     return true;
