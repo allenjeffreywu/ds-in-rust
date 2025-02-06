@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::{collections::HashMap, f32::NEG_INFINITY, i32::MIN};
+use std::{collections::HashMap, i32::MIN};
 
 /// Determine the Hamming Distance between two arrays of ints.
 /// Neither a or b are altered
@@ -125,17 +125,44 @@ pub fn queens_are_safe(board: &[Vec<char>]) -> bool {
 /// the sub rectangle must be at least 1 by 1
 /// values in the city may be negative, indicating it is undesirable
 /// Returns the value of the most valuable contiguous sub rectangle
+/// Think Kadane's algorithm
 pub fn get_value_of_most_valuable_plot(city: &[Vec<i32>]) -> i32 {
     assert!(city.len() != 0);
     assert!(city[0].len() != 0);
     assert!(is_rectangular(city));
 
-    let mut ret: i32 = city[0][0];
+    // Height will be for rows
+    // Width will be for cols
 
-    // create a vec of vecs to track previous calculations. this should save time
-    let mut plots = vec![vec![city[0][0]]];
+    let height = city.len();
+    let width = city[0].len();
+
+    // creating a temp array a that collects the sums across columns
+    let mut a = vec![vec![0; width]; height + 1];
+    for r in 0..height + 1 {
+        for c in 0..width {
+            a[r][c] = 0;
+        }
+    }
+    for r in 1..height + 1 {
+        for c in 0..width {
+            a[r][c] = a[r - 1][c] + city[r - 1][c];
+        }
+    }
+    let maxSum = MIN;
+    let maxRowStart = -1;
+    let maxColStart = -1;
+    let maxRowEnd = -1;
+    let maxColEnd = -1;
+
+    // let mut ret: i32 = city[0][0];
+
+    // // create a vec of vecs to track previous calculations. this should save time
+    // let mut plots = vec![vec![city[0][0]]];
 
     // now call helper function that adds all cells to the right, and appends that value to plots
+
+    // this will be n^2, which is unfortunate.
 
     // get the value of the entire city and start removing rows/columns until
     // it is valuable. We may want to implement some backtracing to make this

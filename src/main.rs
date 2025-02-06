@@ -1,7 +1,8 @@
 mod p1;
 
 use p1::code_camp::{
-    hamming_distance, is_permutation, most_vowels, queens_are_safe, shared_birthdays,
+    get_value_of_most_valuable_plot, hamming_distance, is_permutation, most_vowels,
+    queens_are_safe, shared_birthdays,
 };
 
 fn main() {
@@ -31,5 +32,19 @@ fn main() {
         ['q', '.', '.', '.'],
     ];
     let board: Vec<_> = board.iter().map(|&e| e.to_vec()).collect();
-    queens_are_safe(&board);
+    println!("Queens are safe: {}", queens_are_safe(&board));
+
+    let city = [
+        [0, -2, -7, 0, -1],
+        [9, 2, -6, 2, 0],
+        [-4, 1, -4, 1, 0],
+        [-1, 8, 0, -2, 1],
+        [-10, 1, 1, -5, -6],
+        [-15, -1, 1, 5, 4],
+    ];
+    let city: Vec<_> = city.iter().map(|&e| e.to_vec()).collect();
+    println!(
+        "Value of the most valuable plot in the city is: {}",
+        get_value_of_most_valuable_plot(&city)
+    );
 }
