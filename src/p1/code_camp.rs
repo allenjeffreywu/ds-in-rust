@@ -131,13 +131,10 @@ pub fn get_value_of_most_valuable_plot(city: &[Vec<i32>]) -> i32 {
     assert!(city[0].len() != 0);
     assert!(is_rectangular(city));
 
-    // Height will be for rows
-    // Width will be for cols
-
     let height = city.len();
     let width = city[0].len();
 
-    // creating a temp array a that collects the sums across columns
+    // creating a temp array a that sums up the columns
     let mut a = vec![vec![0; width]; height + 1];
     for r in 0..height + 1 {
         for c in 0..width {
@@ -149,49 +146,38 @@ pub fn get_value_of_most_valuable_plot(city: &[Vec<i32>]) -> i32 {
             a[r][c] = a[r - 1][c] + city[r - 1][c];
         }
     }
-    let maxSum = MIN;
-    let maxRowStart = -1;
-    let maxColStart = -1;
-    let maxRowEnd = -1;
-    let maxColEnd = -1;
-
-    // let mut ret: i32 = city[0][0];
-
-    // // create a vec of vecs to track previous calculations. this should save time
-    // let mut plots = vec![vec![city[0][0]]];
-
-    // now call helper function that adds all cells to the right, and appends that value to plots
-
-    // this will be n^2, which is unfortunate.
-
-    // get the value of the entire city and start removing rows/columns until
-    // it is valuable. We may want to implement some backtracing to make this
-    // more efficient. This should be recursive? iterative solution seems silly
-
-    // need to create some way to store all of this information to make sure we
-    // don't duplicate work done by other processes
-
-    // the stop for recursion is when the dimensions reach 1 by 1
-    // what if we have the coord for the bottom left corner followed by length and width
-    // if we do that, what sort of data structure can we use?
-    // simplest way is to have a map
-    // Here is the pattern for the map:
-    // key = "x,y,l,w"
-    // value = area
-    // remove the individual row/column as you go.
-    // this is bad for borrowing?
-    // what if we used 0 space
-
-    // imagine the following
-    // starting at the bottom row of the city, we have a process for EACH cell
-    // the next step is to calculate the area of the current cell and the one to the right
-    // we continue adding cells to the right until the 0th cell reaches the end of the city
-    // we then calculate the bottom row + 1 of the city's area and do the same thing
-    // we add cells to the right of the starting cell and calculate the area in the same way
-    // we THEN add previously calculated rows (which will always be below)
-    // so we backtrace for the other calculations and add them to the area. and store a result somewhere
-    // this continues until you reach the top row of the city.
-    return 0;
+    let mut max_sum = MIN;
+    // let mut maxRowStart: i32 = -1;
+    // let mut maxColStart: i32 = -1;
+    // let mut maxRowEnd: i32 = -1;
+    // let mut maxColEnd: i32 = -1;
+    // search for the most valuable plot
+    for r1 in 1..height + 1 {
+        for r2 in r1..height + 1 {
+            // temp array to subtract across rows
+            let mut b = vec![0; height];
+            for c in 0..width {
+                b[c] = a[r2][c] - a[r1 - 1][c];
+            }
+            let mut max = 0;
+            // let mut c1 = 0;
+            for c in 0..width {
+                max = b[c] + max; // Kadanes
+                if max <= 0 {
+                    max = 0;
+                    // c1 = c + 1;
+                } else if max > max_sum {
+                    max_sum = max;
+                    // this is not pretty.
+                    // maxRowStart = r1 as i32 - 1;
+                    // maxColStart = c1 as i32;
+                    // maxRowEnd = r2 as i32 - 1;
+                    // maxColEnd = c as i32;
+                }
+            }
+        }
+    }
+    return max_sum;
 }
 
 pub fn is_square(board: &[Vec<char>]) -> bool {
