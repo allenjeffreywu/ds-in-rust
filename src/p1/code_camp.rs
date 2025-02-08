@@ -596,4 +596,11 @@ mod tests {
         ];
         assert_eq!(queens_are_safe(&board), false);
     }
+
+    #[test]
+    fn get_value_of_most_valuable_plot_1() {
+        let city = vec![
+            vec![],
+        ];
+    }
 }
