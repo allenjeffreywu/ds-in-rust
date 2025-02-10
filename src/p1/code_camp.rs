@@ -600,7 +600,49 @@ mod tests {
     #[test]
     fn get_value_of_most_valuable_plot_1() {
         let city = vec![
-            vec![],
+            vec![0, -2, -7, 0, -1],
+            vec![9, 2, -6, 2, 0],
+            vec![-4, 1, -4, 1, 0],
+            vec![-1, 8, 0, -2, 1],
+            vec![-10, 1, 1, -5, -6],
+            vec![-15, -1, 1, 5, 4],
         ];
+        assert_eq!(get_value_of_most_valuable_plot(&city), 15);
+    }
+
+    #[test]
+    fn get_value_of_most_valuable_plot_2() {
+        let city = vec![
+            vec![0, -2, -7, 0, -1],
+            vec![9, 2, -6, 2, 0],
+            vec![-4, 1, -4, 1, 0],
+            vec![-1, 8, 0, -2, 1],
+            vec![-10, 6, 1, -5, -6],
+            vec![-15, -1, 1, 5, 4],
+        ];
+        assert_eq!(get_value_of_most_valuable_plot(&city), 17);
+    }
+
+    #[test]
+    fn get_value_of_most_valuable_plot_3() {
+        let city = vec![vec![1]];
+        assert_eq!(get_value_of_most_valuable_plot(&city), 1);
+    }
+
+    #[test]
+    fn get_value_of_most_valuable_plot_4() {
+        let city = vec![vec![1, 2, 3, 4, 5, 6, 7]];
+        assert_eq!(get_value_of_most_valuable_plot(&city), 28);
+    }
+
+    #[test]
+    fn get_value_of_most_valuable_plot_5() {
+        let city = vec![
+            vec![-10, -10, -10, -5],
+            vec![-15, -15, -10, -10],
+            vec![-5, -10, -20, -5],
+            vec![-5, -5, -10, -20],
+        ];
+        assert_eq!(get_value_of_most_valuable_plot(&city), -5);
     }
 }
