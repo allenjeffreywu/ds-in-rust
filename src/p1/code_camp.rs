@@ -1,5 +1,5 @@
 use rand::Rng;
-use std::{collections::HashMap, i32::MIN};
+use std::{cmp::max, collections::HashMap, i32::MIN};
 
 /// Determine the Hamming Distance between two arrays of ints.
 /// Neither a or b are altered
@@ -131,6 +131,17 @@ pub fn get_value_of_most_valuable_plot(city: &[Vec<i32>]) -> i32 {
     assert!(city[0].len() != 0);
     assert!(is_rectangular(city));
 
+    // case when the city is actually a 1D array
+    if city.len() == 1 {
+        let mut max_sum = MIN;
+        let mut current = 0;
+        for e in &city[0] {
+            current = max(*e, current + e);
+            max_sum = max(max_sum, current);
+        }
+        return max_sum;
+    }
+
     let height = city.len();
     let width = city[0].len();
 
@@ -147,10 +158,6 @@ pub fn get_value_of_most_valuable_plot(city: &[Vec<i32>]) -> i32 {
         }
     }
     let mut max_sum = MIN;
-    // let mut maxRowStart: i32 = -1;
-    // let mut maxColStart: i32 = -1;
-    // let mut maxRowEnd: i32 = -1;
-    // let mut maxColEnd: i32 = -1;
     // search for the most valuable plot
     for r1 in 1..height + 1 {
         for r2 in r1..height + 1 {
@@ -159,21 +166,11 @@ pub fn get_value_of_most_valuable_plot(city: &[Vec<i32>]) -> i32 {
             for c in 0..width {
                 b[c] = a[r2][c] - a[r1 - 1][c];
             }
-            let mut max = 0;
-            // let mut c1 = 0;
+            let mut current = 0;
             for c in 0..width {
-                max = b[c] + max; // Kadanes
-                if max <= 0 {
-                    max = 0;
-                    // c1 = c + 1;
-                } else if max > max_sum {
-                    max_sum = max;
-                    // this is not pretty.
-                    // maxRowStart = r1 as i32 - 1;
-                    // maxColStart = c1 as i32;
-                    // maxRowEnd = r2 as i32 - 1;
-                    // maxColEnd = c as i32;
-                }
+                // we can pretty this one up
+                current = max(b[c], current + b[c]);
+                max_sum = max(max_sum, current);
             }
         }
     }
